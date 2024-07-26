@@ -25,4 +25,3 @@ fun main() {
 fun solvePart1() = 0
 
 fun solvePart2() = 0
-
