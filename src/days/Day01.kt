@@ -1,3 +1,8 @@
+package days
+
+import println
+import readInput
+
 fun main() {
 
 
@@ -9,7 +14,6 @@ fun main() {
         return solvePart2(input)
     }
 
-    // test if implementation meets criteria from the description, like:
     val testInput = readInput("Day01_test")
     check(part1(testInput) == 142)
 
@@ -21,6 +25,12 @@ fun main() {
 
 }
 
+fun calibrationValue(row: String): Int =
+    "${row.first { it.isDigit() }}${row.last { it.isDigit() }}".toInt()
+
+fun solvePart1(input: List<String>): Int =
+    input.sumOf { calibrationValue(it) }
+
 val words: Map<String, Int> = mapOf(
     "one" to 1,
     "two" to 2,
@@ -30,19 +40,13 @@ val words: Map<String, Int> = mapOf(
     "six" to 6,
     "seven" to 7,
     "eight" to 8,
-    "nine" to 9
+    "nine" to 9,
 )
 
 fun String.possibleWordsAt(startingAt: Int): List<String> =
-    (3..5).map { len ->
-        substring(startingAt, (startingAt + len).coerceAtMost(length))
+    (3..5).map {
+        substring(startingAt, (startingAt + it).coerceAtMost(length))
     }
-
-fun calibrationValue(row: String): Int =
-    "${row.first { it.isDigit() }}${row.last { it.isDigit() }}".toInt()
-
-fun solvePart1(input: List<String>): Int =
-    input.sumOf { calibrationValue(it) }
 
 fun solvePart2(input: List<String>): Int =
     input.sumOf { row ->
@@ -50,8 +54,8 @@ fun solvePart2(input: List<String>): Int =
             row.mapIndexedNotNull { index, c ->
                 if (c.isDigit()) c
                 else
-                    row.possibleWordsAt(index).firstNotNullOfOrNull { candidate ->
-                        words[candidate]
+                    row.possibleWordsAt(index).firstNotNullOfOrNull {
+                        words[it]
                     }
             }.joinToString()
         )
